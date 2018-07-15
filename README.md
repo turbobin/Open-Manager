@@ -17,6 +17,16 @@
 
 ## 原理：
 
+- 导入库  
+tkinter,webbrowser均为python标准库，不需要另外安装
+	```python
+	import tkinter as tk
+	import json
+	import webbrowser
+	from tkinter import messagebox
+	from tkinter import *
+	```
+
 - 使用python自带界面开发库tkinter开发基本界面
 	```python
 	if __name__ == '__main__':
