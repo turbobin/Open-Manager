@@ -1,10 +1,11 @@
 # 如何管理杂乱的电脑桌面和一大堆的浏览器收藏网址？我用python写了一个工具，迅速提高工作效率。
 
-工作了一段时间发现，电脑桌面上已经满屏的常用软件、常用项目文件夹的快捷方式，一大堆的常用文档，浏览器上收藏的工作网址更是有100+，通常想打开一个文档、网址要寻找半天，有没有方法可以集中管理这些地址呢？
+工作了一段时间发现，电脑桌面上已经满屏的常用软件、常用项目文件夹的快捷方式，一大堆的常用文档，浏览器上收藏的工作网址更是有100+，通常想打开一个文档、网址要寻找半天，有没有方法可以集中管理这些地址呢？  
 我用**python tkinter + webbrowser**写了一个地址收藏工具
 
 ![](https://i.imgur.com/vn7WO9d.png)
 ![](https://i.imgur.com/ZsZHYtN.png)
+![](https://i.imgur.com/QY8tXqY.png)
 
 ## 功能：
 
@@ -51,7 +52,7 @@
         self.listbox.bind('<Double-Button-1>',self.openurl) # 双击打开地址
         self.listbox.bind('<Return>',self.openurl) # 按Enter键打开地址
 	```
-- 使用**webbrowser.open()**打开路径
+- 使用`webbrowser.open(url)`方法打开路径  
 这个方法比较强大，如果是http地址，会直接在浏览器中打开，如果是本地地址，会直接打开软件/文件夹/文档...
 	```python
     def openurl(self,event):
@@ -64,7 +65,7 @@
             messagebox.showinfo('Error !', '打开网址失败！地址为空。')
 	```
 
-- 搜索功能
+- 搜索功能  
 搜索功能实现比较简单，遍历字典key值，判断关键字是否存在key中
 	```python
     def showlist(self, event):
@@ -77,8 +78,17 @@
                     self.listbox.insert(END, item)  # 加载搜索结果
 	```
 
+- 退出软件时重新保存json文件
+	```python
+    def savaUrllist(self):
+        with open('openlist.json', 'w', encoding='utf-8') as f:
+            json.dump(self.urllist,f, ensure_ascii=False, indent=2)
+
+        print('文件保存成功。')
+	```
+
 - 打包软件
-win下使用pyinstaller
+win下使用pyinstaller  
 Mac下使用py2app
 
 ![](https://i.imgur.com/XCDeKgY.png)
@@ -86,7 +96,7 @@ Mac下使用py2app
 ## 使用教程
 
 - 获取软件和源码：
-`GitHub地址：`[https://github.com/turbobin/Open-Manager](https://github.com/turbobin/Open-Manager)
+`GitHub地址:`[https://github.com/turbobin/Open-Manager](https://github.com/turbobin/Open-Manager)
 
 - 下载`OpenTool.exe`，解压到本地路径即可使用。
 
