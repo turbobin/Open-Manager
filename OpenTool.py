@@ -144,7 +144,7 @@ class Application(tk.Frame):
         Label(self.frame3,width=20).pack(side=RIGHT, expand=YES)
 
 
-        # 加载网址列表
+        # 加载地址列表
         for item in self.urllist:
             self.listbox.insert(END, item)  # 从尾部插入
 
@@ -197,7 +197,7 @@ class Application(tk.Frame):
         if url is not None and url != '':
             webbrowser.open(url)
         else:
-            messagebox.showinfo('Error !', '打开网址失败！地址为空。')
+            messagebox.showinfo('Error !', '打开地址失败！地址为空。')
 
     def showlistAll(self,event):
         keywd = self.keywdbox.get().strip()
