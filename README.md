@@ -9,11 +9,11 @@
 
 ## 功能：
 
-- [x] **关键字搜索，字母不区分大小写**
+- [x] **关键字搜索，字母不区分大小写。**
 - [x] **添加：url网址，本地软件路径，本地文档路径**
+- [x] **双击/敲回车快捷打开**
 - [x] **选中删除**
-- [x] **双击/敲回车直接打开**
-- [ ] **修改，可使用添加功能修改打开路径，起相同的名称，会覆盖原来的路径**
+- [ ] **修改，可使用添加功能，支持同名覆盖**
 
 ## 原理：
 
@@ -63,7 +63,7 @@ tkinter,webbrowser均为python标准库，不需要另外安装
         self.listbox.bind('<Return>',self.openurl) # 按Enter键打开地址
 	```
 - 使用`webbrowser.open(url)`方法打开路径  
-这个方法比较强大，如果是http地址，会直接在浏览器中打开，如果是本地地址，会直接打开软件/文件夹/文档...
+这个方法比较强大，如果是http地址，会直接在浏览器中打开，如果是本地地址，会直接打开本地软件/文件夹/文档...
 	```python
     def openurl(self,event):
         urlname = self.listbox.get(self.listbox.curselection())
@@ -115,4 +115,7 @@ Mac下使用py2app
 
 MIT
 
-欢迎 Star 和 Fork ~
+欢迎 Star 和 Fork ~  
+
+
+如有问题，请提出改进建议，谢谢！联系:**turbobin@foxmail.com**
