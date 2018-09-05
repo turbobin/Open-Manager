@@ -9,10 +9,15 @@ from pypinyin import Style
 import threading
 import time
 import systemhotkey
+import os
+import base64
+from icon import MYICO,ADDICO
 FONT_1 = ('微软雅黑',10,'normal')
 FONT_2 = ('Arial',10,'normal')
 
 Win_Hide = False
+
+
 
 # 主窗体
 class Application(tk.Frame):
@@ -117,17 +122,25 @@ class Application(tk.Frame):
         cw = Add_PopupDialog(self,'change',urlname)
         self.wait_window(cw)  # 這一句很重要！！！
 
+
     def doevent(self):
         #self.keywdbox.bind("<Return>",self.showlist) # 按回车键，显示搜索结果
         self.keywdbox.bind("<KeyRelease>",self.showlist) # 按任意键，显示搜索结果 一定要用keyrelease 否则字符还没有输入到Enter就进入了事件处理程序
         #self.keywdbox.bind("<BackSpace>",self.showlistAll)
         #self.keywdbox.bind("<Return>", lambda e: print('enter'))
         self.keywdbox.bind("<Delete>",self.showlistAll)
+        self.listbox.bind("<Delete>", self.Rest)
         self.listbox.bind('<Double-Button-1>',self.openurl) # 双击打开地址
         self.listbox.bind('<Return>',self.openurl) # 按Enter键打开地址
         self.listbox.bind('<Left>', lambda e:self.keywdbox.focus_set())  # 返回搜索框
+        #self.listbox.bind('<Delete>', lambda e: self.keywdbox.focus_set())  # 返回搜索框
         self.listbox.bind('<Right>', lambda e: self.keywdbox.focus_set())  # 返回搜索框
         self.keywdbox.bind("<Down>",self.jump_to_result)
+
+    def Rest(self,event):
+        self.keywdbox.focus_set()
+        self.showlistAll(event)
+
     def openurl(self, event):
         self.listbox.focus_set()
         if self.listbox.curselection() == tuple():
@@ -208,6 +221,12 @@ class Add_PopupDialog(tk.Toplevel):
         self.geometry("%dx%d+%d+%d" %(ww,wh,x,y)) #设置窗口大小和布局位置
         self.resizable(0,0) #设置 x,y方向都不可以缩放
 
+        tmp2 = open("tmp2.ico","wb")
+        tmp2.write(base64.b64decode(ADDICO))
+        tmp2.close()
+        self.iconbitmap("tmp2.ico")
+        #os.remove("tmp2.ico")
+        
         #self.iconbitmap('add_new.ico')
         self.parent = parent #创建parent属性储存parent
         frame = tk.Frame(self) #创建一个frame
@@ -295,7 +314,6 @@ EXITFLG = False
 def hotkey():
     global EXITFLG
     while (EXITFLG == False):
-        time.sleep(0.5)
         #print(EXITFLG)
         if systemhotkey.RUN == True:
             print(systemhotkey.RUN)
@@ -303,10 +321,11 @@ def hotkey():
                 root.iconify()
             else:
                 print(root.winfo_viewable())
-                #root.update()
+                root.update()
                 root.deiconify()
             systemhotkey.RUN = False
             print("hotkey run")
+        time.sleep(0.1)
 
 
 
@@ -314,7 +333,12 @@ def hotkey():
 if __name__ == '__main__':
     root = tk.Tk()
     root.title('我的快捷管理')
-    # root.iconbitmap('Myshortcut.ico')
+    tmp = open("tmp.ico","wb")
+    tmp.write(base64.b64decode(MYICO))
+    tmp.close()
+    root.iconbitmap("tmp.ico")
+    #os.remove("tmp.ico")
+    #root.iconbitmap('Myshortcut.ico')
     root.resizable(0, 0)  # 固定窗口大小
     print("taskmain start")
     print("init hotkey")
