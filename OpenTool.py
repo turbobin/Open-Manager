@@ -130,6 +130,8 @@ class Application(tk.Frame):
         #self.keywdbox.bind("<Return>", lambda e: print('enter'))
         self.keywdbox.bind("<Delete>",self.showlistAll)
         self.listbox.bind("<Delete>", self.Rest)
+        self.listbox.bind("<Escape>", self.Rest)
+        self.keywdbox.bind("<Escape>",self.showlistAll)
         self.listbox.bind('<Double-Button-1>',self.openurl) # 双击打开地址
         self.listbox.bind('<Return>',self.openurl) # 按Enter键打开地址
         self.listbox.bind('<Left>', lambda e:self.keywdbox.focus_set())  # 返回搜索框
