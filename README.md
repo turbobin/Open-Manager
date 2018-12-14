@@ -10,10 +10,10 @@
 ## 功能：
 
 - [x] **关键字搜索，字母不区分大小写。**
-- [x] **添加：url网址，本地软件路径，本地文档路径**
-- [x] **双击/敲回车快捷打开**
+- [x] **添加：URL网址，本地软件路径，本地文档路径**
+- [x] **双击/敲回车键快捷打开**
 - [x] **选中删除**
-- [ ] **修改，可使用添加功能，支持同名覆盖**
+- [ ] **修改：可使用添加功能，支持同名覆盖**
 
 ## 原理：
 
@@ -62,8 +62,8 @@ tkinter,webbrowser均为python标准库，不需要另外安装
         self.listbox.bind('<Double-Button-1>',self.openurl) # 双击打开地址
         self.listbox.bind('<Return>',self.openurl) # 按Enter键打开地址
 	```
-- 使用`webbrowser.open(url)`方法打开路径  
-这个方法比较强大，如果是http地址，会直接在浏览器中打开，如果是本地地址，会直接打开本地软件/文件夹/文档...
+- 使用`webbrowser.open(url)`方法打开路径.  
+这个方法比较强大，如果是http地址，会直接在浏览器中打开，如果是本地地址，会直接打开本地的软件/文件夹/文档等
 	```python
     def openurl(self,event):
         urlname = self.listbox.get(self.listbox.curselection())
@@ -118,18 +118,88 @@ MIT
 ---------------------
 
 ## 更新 -- 20180916	 **Thinks for @CYDROM's pull requests**
-
 **更新点：**
-* 增加实时查询：输入中开始查询；
-* 拼音查询，拼音首字母查询：全拼或拼音首字母查询；
+* 增加实时查询：输入就开始查询。之前输入关键字需要按Enter键筛选结果，现在只要输入就在同时筛选，优化了用户体验；
+* 拼音查询：全拼或拼音首字母查询，比如之前要输入完整的关键字`百度`，现在输入`baidu`就可以快速筛选出来；
+	* 安装第三方包`pip install pypinyin` 
+```python
+from pypinyin import Style
+import pypinyin
+......
+	def showlist(self, event):
+        keywd = self.keywdbox.get().strip()
+        if keywd:
+            self.listbox.delete(0, END)
+            # print(urllist)
+            for item in self.urllist:
+                if (keywd.lower() in item.lower()) or (keywd.lower() in pypinyin.slug(item.lower(), separator='') or
+                    (keywd.lower() in pypinyin.slug(item.lower(),style=Style.FIRST_LETTER,separator=''))):
+                    self.listbox.insert(END, item)  # 加载搜索结果
+        else:
+            self.listbox.delete(0, END)
+            for item in self.urllist:
+                self.listbox.insert(END, item)  # 空字符时，加载所有列表
+```
 * 方向键快捷键：输入框中按 Down键，进入条目区，条目区按下Left键返回搜索框；
 
 **优化：**
-* 打开时光标定位到搜索框
-* 打开添加子窗口时，光标定位到输入框，并使根窗口失效(不可点击)
+* 打开软件时，使光标直接定位到搜索框
+* 打开添加子窗口时，使光标定位到输入框，并使根窗口失效(不可点击)，上一版本可打开多个添加窗口，根窗口还可以聚焦，不太合理。
+
+具体实现细节，可 `git clone https://github.com/turbobin/Open-Manager.git`查看。
+
+--------------------
+## 更新 --20181205
+Chrome书签收藏有 200 个以上了，如何把这些书签导入我的收藏神器中呢？
+1.在 Chrome 浏览器中右上角点击**书签** --> **书签管理器** --> **点击右上角** --> **导出书签**，会下载一个类似`bookmarks_2018_12_05.html`文件，双击打开，如图：
+
+![](https://i.imgur.com/PquhQbc.png)
+
+2.下面我们来用 BeautifulSoup 把书签名和对应 url 爬下来，保存 json 文件，程序如下：
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# created on '2018/12/05'
+
+from bs4 import BeautifulSoup
+import requests
+import json
+
+def create_soup():
+	f = open("bookmarks_2018_12_05.html", encoding="utf-8")
+	soup = BeautifulSoup(f, 'html.parser')
+	return soup
+
+
+def dumps_json(soup):
+	openlist = dict()
+	tag_a = soup.find_all('a')
+	for a in tag_a:
+		openlist[a.string] = a.get('href')
+
+	content = json.dumps(openlist, ensure_ascii=False, indent=2)
+	with open("openlist.json", "w", encoding="utf-8") as f:
+		f.write(content)
+
+
+def main():
+	soup = create_soup()
+	dumps_json(soup)
+
+if __name__ == '__main__':
+	main()
+```
+3.把文件 openlist.json (固定命名) 放到 OpenTool.exe 文件同级目录下，可以和原来的 openlist.json 做一下合并，现在打开软件，可以看到书签已经加载进来了。
+![](https://i.imgur.com/Fvxqm0t.png)
 
 --------------------
 欢迎 Star 和 Fork ~  
 
 
 如有问题，请提出改进建议，谢谢！联系:**turbobin@foxmail.com**
+
+---
+**关注我的公众号，和我一起进步：**
+
+![](https://turbobin.github.io/img/qrcode.jpg)
