@@ -153,6 +153,7 @@ class Application(tk.Frame):
 
         if url is not None and url != '':
             webbrowser.open(url)
+            root.iconify() #打开地址自动最小化
         else:
             messagebox.showinfo('Error !', '打开地址失败！地址为空。')
 
