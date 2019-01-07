@@ -1,7 +1,7 @@
 # 如何管理杂乱的电脑桌面和一大堆的浏览器收藏网址？我用python写了一个工具，迅速提高工作效率。
 
 工作了一段时间发现，电脑桌面上已经满屏的常用软件、常用项目文件夹的快捷方式，一大堆的常用文档，浏览器上收藏的工作网址更是有100+，通常想打开一个文档、网址要寻找半天，有没有方法可以集中管理这些地址呢？  
-我用**python tkinter + webbrowser**写了一个地址收藏工具
+我用** python tkinter + webbrowser **写了一个地址收藏工具
 
 ![](https://i.imgur.com/vn7WO9d.png)
 ![](https://i.imgur.com/ZsZHYtN.png)
@@ -119,8 +119,9 @@ MIT
 
 ## 更新 -- 20180916	 **Thinks for @CYDROM's pull requests**
 **更新点：**
+
 * 增加实时查询：输入就开始查询。之前输入关键字需要按Enter键筛选结果，现在只要输入就在同时筛选，优化了用户体验；
-* 拼音查询：全拼或拼音首字母查询，比如之前要输入完整的关键字`百度`，现在输入`baidu`就可以快速筛选出来；
+* 拼音查询：全拼或拼音首字母查询，比如之前要输入完整的关键字`'百度'`'，现在输入`'baidu'`就可以快速筛选出来；
 	* 安装第三方包`pip install pypinyin` 
 ```python
 from pypinyin import Style
@@ -143,6 +144,7 @@ import pypinyin
 * 方向键快捷键：输入框中按 Down键，进入条目区，条目区按下Left键返回搜索框；
 
 **优化：**
+
 * 打开软件时，使光标直接定位到搜索框
 * 打开添加子窗口时，使光标定位到输入框，并使根窗口失效(不可点击)，上一版本可打开多个添加窗口，根窗口还可以聚焦，不太合理。
 
@@ -200,6 +202,5 @@ if __name__ == '__main__':
 如有问题，请提出改进建议，谢谢！联系:**turbobin@foxmail.com**
 
 ---
-**关注我的公众号，和我一起进步：**
+**博客地址：**[https://turbobin.github.io/](https://turbobin.github.io/2018/12/05/python-Tkinter/)
 
-![](https://turbobin.github.io/img/qrcode.jpg)
