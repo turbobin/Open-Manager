@@ -241,10 +241,10 @@ class Application(tk.Frame):
             self.listbox.delete(0, END)
             # print(urllist)
             for item in self.urllist:
-                if (keywd.lower() in item.lower()) or (keywd.lower() in pypinyin.slug(item.lower(), separator='') or
-                                                       (keywd.lower() in pypinyin.slug(item.lower(),
-                                                                                       style=Style.FIRST_LETTER,
-                                                                                       separator=''))):
+                cond_1 = keywd.lower() in item.lower()
+                cond_2 = keywd.lower() in pypinyin.slug(item.lower(), separator='')
+                cond_3 = keywd.lower() in pypinyin.slug(item.lower(), style=Style.FIRST_LETTER, separator='')
+                if any([cond_1, cond_2, cond_3]):
                     self.listbox.insert(END, item)  # 加载搜索结果
         else:
             self.listbox.delete(0, END)
